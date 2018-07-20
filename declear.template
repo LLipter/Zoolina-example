@@ -1,0 +1,3 @@
+<% :str="template" %>	/// declear a string variable
+<% :i=1 %>		/// declear a integer variable
+<% :f %>		/// declear a float variable
