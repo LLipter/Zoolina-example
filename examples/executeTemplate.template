@@ -1,1 +1,0 @@
-<%=executeTemplate("examples/reference.template","a=1&b=2")%>

@@ -1,4 +1,0 @@
-i=<%=:i%><br>
-userId=<%=:userId%><br>
-userToken=<%=:userToken%><br>
-<%=writeToFile(:multipart_filename1,&multipart_filecontent1)%>
