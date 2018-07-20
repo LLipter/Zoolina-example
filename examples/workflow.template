@@ -1,0 +1,3 @@
+<%Require :x,"examples/provider1.template","operand1=5","user=user1" /%>
+<%Require :y,"examples/provider2.template","operand2=6","user=user2" /%>
+the final result of this workflow is <%=:x+:y%>

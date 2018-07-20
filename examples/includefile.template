@@ -1,0 +1,7 @@
+<%#include "examples/functions.template"%>
+<html>
+<table>
+<tr><td><%=add(3,5)+6%></td>
+</tr>
+</table>
+</html>

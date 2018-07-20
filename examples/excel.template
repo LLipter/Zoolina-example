@@ -1,0 +1,4 @@
+<%:content= "{0,0,\"name\"},{0,1,\"id\"},{0,2,\"salary\"}"%>
+<%:content += ",{1,0,\"王刚\"},{1,1,\"20170001\"},{1,2,\"34.68\"}"%>
+<%:filename = tuid() + ".xls"%>
+<%generateAndDownloadExcelFile(:filename,:content)%>

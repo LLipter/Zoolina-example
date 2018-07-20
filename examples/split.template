@@ -1,0 +1,7 @@
+<%:str="a&bi&c"%>
+<%split(:str,"&", &array)%>
+<%:i=0%>
+<%While :i< arrayLength(&array)%>
+  <%=:array[:i]%><br>
+  <%:i= :i +1%> 
+<%EndWhile%>

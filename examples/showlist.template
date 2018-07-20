@@ -1,0 +1,285 @@
+<!-- databaseName=demo_iss_backup -->
+<!-- cs_english_notices{nid,title,content,picpath,description,FOUND_ROWS}{}{nid desc} <%:tmp=:pageNumber-1%> {limit <%=:tmp*:pageSize%>,<%=:pageSize%>} -->   ///:变量的值从外部获取；{}表示查询条件为空
+﻿<%:totalPage=ceil(:FOUND_ROWS,:pageSize)%>
+<script type="text/javascript">
+    function passLink(){
+        $("#bufferLink")[0].value = $("#popup_message #modifyLink")[0].value;
+    }
+
+    function passTip(){
+        $("#bufferTip")[0].value = $("#popup_message #modifyTip")[0].value;
+    }
+
+    function passImagepath(){
+        $("#bufferImagepath")[0].value = $("#popup_message #modifyImagepath")[0].value;
+    }
+
+
+    function passTitle(){
+        $("#bufferTitle")[0].value = $("#popup_message #modifyTitle")[0].value;
+    }
+
+
+
+
+    function writeIncFile(){
+        getFromWS("writeIncFile()","folder=Home$^@^$template=slideshow.template$^@^$targetfolder=home$^@^$incfile=slideshow.txt",null,refreshList);
+    }
+
+    function refreshList(){
+        var paras = "folder=maintain$^@^$template=slideshowlist.template$^@^$pageNumber=<%=:pageNumber%>$^@^$pageSize=<%=:pageSize%>";
+        loadFromWS("dynamicPage()",paras,"list");
+    }
+
+    function gotoPage(pn,ps){
+        document.location.href="1homeScrollPic.html?pageNumber="+pn+"&pageSize="+ps;
+    }
+    function jumpPage(){
+        var idx = document.getElementById("mySelect").selectedIndex+1; 
+        document.location.href="homeScrollPic.html?pageNumber="+idx+"&pageSize=<%=:pageSize%>";
+    }
+    function createBuffer(idx){
+        var entity;
+        entity = document.getElementById("picid"+idx);
+        $("#bufferPicid")[0].value = entity.value;
+        entity = document.getElementById("link"+idx);
+        $("#bufferLink")[0].value = entity.value;
+        entity = document.getElementById("tip"+idx);
+        $("#bufferTip")[0].value = entity.value;
+        entity = document.getElementById("image_path"+idx);
+        $("#bufferImagepath")[0].value = entity.value;
+        entity = document.getElementById("title"+idx);
+        $("#bufferTitle")[0].value = entity.value;        
+        $("#bufferIsLocal")[0].value = "0";        
+    }
+    function modiRecord(){
+        var picid = $("#bufferPicid")[0].value;
+        var prmpt;
+        if(picid==0)
+           prmpt="新增记录";
+        else
+           prmpt="修改记录";
+        hiBox('#modifybox', prmpt,500,'','','.a_close');
+        var entity;
+        entity = document.getElementById("bufferLink");
+        $("#popup_message #modifyLink")[0].value = entity.value;
+        entity = document.getElementById("bufferTip");
+        $("#popup_message #modifyTip")[0].value = entity.value;
+        entity = document.getElementById("bufferImagepath");
+        $("#popup_message #modifyImagepath")[0].value = entity.value;
+        entity = document.getElementById("bufferTitle");
+        $("#popup_message #modifyTitle")[0].value = entity.value;
+        entity = document.getElementById("bufferPicid");
+        $("#popup_message #modifyPicid")[0].value = entity.value;
+        entity = document.getElementById("bufferIsLocal");
+        $("#popup_message #modifyIsLocal")[0].value = entity.value;
+    }
+    
+    function saveRecord(){
+        var picid =  $("#popup_message #modifyPicid")[0].value;
+        var link = $("#popup_message #modifyLink")[0].value;
+        var tip = $("#popup_message #modifyTip")[0].value;
+        var imagepath = $("#popup_message #modifyImagepath")[0].value;
+        var title = $("#popup_message #modifyTitle")[0].value;
+        if(link=="" || tip=="" || imagepath=="" || title==""){
+            alert("请将信息填充完整！");
+            return;
+        }
+        var doSave = function(rStr){
+            var paras;
+            paras ="picid="+ picid;        
+            paras +="$^@^$link="+ link;
+            paras += "$^@^$tip="+ tip;
+            if(arguments.length>0 && rStr){
+                var picName = rStr.split("=")[1];
+                paras += "$^@^$imagepath="+picName;
+            }
+            else
+                paras += "$^@^$imagepath="+ imagepath;
+            paras += "$^@^$title="+ title;
+            getFromWS("dynamicPage()","folder=maintain$^@^$template=saverec.template$^@^$"+paras,null,writeIncFile);
+            hiClose();
+        };
+        if($("#popup_message #modifyIsLocal")[0].value=="1"){
+            uploadFiles("popup_message #localpicbtn","slideshow",doSave);
+        }
+        else
+            doSave();    
+    }
+
+    function modifyRecord(idx){
+        createBuffer(idx);
+        modiRecord();            
+    }
+
+    function passVal(v){
+        $("#bufferImagepath")[0].value = v;
+        $("#bufferIsLocal")[0].value="0"; 
+        hiClose();
+        modiRecord();
+    }
+
+    function justReturn(){                
+        hiClose();
+        modiRecord();
+    }
+
+
+    function selectRemotePic(){
+        hiBox('#remotepic', '远程图片',550,400,'','.a_close');
+        var paras= "dir=this$^@^$allowedTypes=jpg&jpeg&bmp&png";
+        paras = "folder=maintain$^@^$template=listdir.template$^@^$"+paras;
+        loadFromWS("dynamicPage()",paras,"popup_message #alldirfile");
+    }
+
+    function setpicpath(){
+        var src = $("#popup_message #localpicbtn")[0];
+        $("#popup_message #modifyImagepath")[0].value = src.value;
+        $("#popup_message #modifyIsLocal")[0].value = "1";
+    }
+
+    function changeRemoteDir(newDir){
+        var posi= newDir.lastIndexOf("/");
+        var sdir = newDir.substring(posi+1,posi+3);
+        if(sdir==".."){
+            newDir = newDir.substring(0,posi);
+            posi = newDir.lastIndexOf("/");
+            newDir = newDir.substring(0,posi);
+        }
+        if(newDir=="")
+            newDir="this";
+        var paras= "dir="+newDir+"$^@^$allowedTypes=jpg&jpeg&bmp&png";
+        paras = "folder=maintain$^@^$template=listdir.template$^@^$"+paras;
+        loadFromWS("dynamicPage()",paras,"popup_message #alldirfile");
+    }
+
+    function deleteRecord(idx){
+        var picid = document.getElementById("picid"+idx).value;
+        var dealResult = function(r){
+            if(r){
+                var paras;
+                paras ="picid="+ picid;        
+                paras +="$^@^$operation=delete";
+                getFromWS("dynamicPage()","folder=maintain$^@^$template=saverec.template$^@^$"+paras,null,writeIncFile);
+            }            
+        };
+	hiConfirm('真的要删除此记录吗?', '确认框', dealResult);
+    }    
+</script>
+
+<table border=0 width=940> 
+  <tr>
+    <td> <b>标题</b> </td>
+    <td> <b>文章内容</b> </td>
+    <td> <b>图片路径</b> </td>
+    <td> <b>描述</b></td>
+    <td> <b>操作</b></td>
+    </tr> 
+<tr style="display:none" id="newRecord">
+    <td> <input id="link0" value="" type="text" width=198 readonly style="width:180px"/> <input type="hidden" value="0" id="picid0"></td>
+    <td> <input id="tip0" value="" type="text" readonly  style="width:180px" /> </td>
+    <td> <input id="image_path0" value="" type="text" readonly  style="width:180px" /> </td>
+    <td> <input id="title0" value="" type="text" readonly  style="width:180px"/> </td>
+    <td> <input id="modifybtn0" type="button" value="修改记录" onclick='javascript:modifyRecord(0);'/> </td>
+</tr>
+<%:i=1%>
+<%Repeat%>
+  <tr>
+    <td> <input id="link<%=:i%>" value="<%=title%>" type="text" width=198 readonly style="width:180px"/> <input type="hidden" value="<%=nid%>" id="picid<%=:i%>"></td>
+    <td> <input id="tip<%=:i%>" value="<%=mid(content,5,6)%>" type="text" readonly  style="width:180px" /> </td>
+    <td> <input id="image_path<%=:i%>" value="<%=picpath%>" type="text" readonly  style="width:180px" /> </td>
+    <td> <input id="title<%=:i%>" value="<%=description%>" type="text" readonly  style="width:180px"/> </td>
+    <td> <input id="modifybtn<%=:i%>" type="button" value="修改记录" onclick='javascript:modifyRecord(<%=:i%>);'/> <input id="deletebtn<%=:i%>" type="button" value="删除记录" onclick="javascript:deleteRecord(<%=:i%>);"/> </td><%:i=:i+1%>
+    </tr> 
+<%EndRepeat%>
+
+    <tr>
+        <td colspan=4 align=center>
+            <%If :pageNumber-1!=0%> <a href='javascript:gotoPage(1,<%=:pageSize%>)'> <%EndIf%>
+                首页
+            <%If :pageNumber-1!=0%></a><%EndIf%> &nbsp;&nbsp;&nbsp;
+        
+            <%If :pageNumber-1!=0%> <a href='javascript:gotoPage(<%=:pageNumber-1%>,<%=:pageSize%>)'> <%EndIf%>/// sub结果为0，就会放弃这一行
+            上一页
+            <%If :pageNumber-1!=0%></a><%EndIf%> &nbsp;&nbsp;&nbsp;  /// sub的结果为0，就会放弃这一行
+        
+         第<%=:pageNumber%>页/共<%=:totalPage%>页&nbsp;&nbsp;&nbsp;
+        
+            <%If :pageNumber!=:totalPage%> <a href='javascript:gotoPage(<%=:pageNumber+1%>,<%=:pageSize%>)'> <%EndIf%>  /// :pageNumber等于totalPage，就会放弃这一行
+            下一页
+            <%If :pageNumber!=:totalPage%></a> <%EndIf%> &nbsp;&nbsp;&nbsp;///:pageNumber等于totalPage，就会放弃这一行
+                 
+        
+            <%If :pageNumber!=:totalPage%> <a href='javascript:gotoPage(<%=:totalPage%>,<%=:pageSize%>)'> <%EndIf%>  /// :pageNumber等于totalPage，就会放弃这一行
+            尾页
+            <%If :pageNumber!=:totalPage%></a> <%EndIf%> &nbsp;&nbsp;&nbsp;///:pageNumber等于totalPage，就会放弃这一行
+        
+        
+           <select id="mySelect" width="50" STYLE="width: 40px" onchange="jumpPage();">
+           <%:tmp=1%>
+           <%:endPage=:totalPage+1%>
+           <%While :tmp!=:endPage%>
+               <option  <%If :tmp==:pageNumber%>selected<%EndIf%> ><%=:tmp%></option>
+               <%:tmp=:tmp+1%>
+           <%EndWhile%>
+           </select>
+        </td>
+        
+    </tr>
+
+	 
+</table>
+
+
+<div id="databuffer" style="display:none">
+    <input id="bufferIsLocal" type=hidden>
+    <input id="bufferPicid" type=hidden>
+    <input id="bufferLink" type= hidden>
+    <input id="bufferTip" type= hidden>
+    <input id="bufferImagepath" type= hidden>
+    <input id="bufferTitle" type= hidden>
+</div>
+
+<div id="modifybox" style="display:none; align:center">
+    <table cellspacing="0" cellpadding="0" border="0" >
+    <tr>
+      <td width=60>  <label>目标URL：</label>  </td>
+      <td>  <input id="modifyLink" style="width:250px" type="text" onchange="javascript:passLink();"></td>
+      <td> <input id="modifyPicid" type="hidden"> </td>
+      <td> <input id="modifyIsLocal" type="hidden"> </td>
+    </tr>
+    <tr height=5></tr>
+    <tr>
+      <td width=60>  提示信息： </td>
+      <td>  <input id="modifyTip" type="text" style="width:250px" onchange="javascript:passTip();">  </td>
+      <td></td><td></td>
+    </tr>
+    <tr height=5></tr>
+    <tr>
+      <td width=60>  图片路径： </td>
+      <td>  <input id="modifyImagepath" type="text" style="width:250px" onchange="javascript:passImagepath();">  </td>
+      <td> <input id="localpicbtn" type="file" style="height:22px;width:65px" onchange="setpicpath();"/> </td>
+      <td> <input id="remotepicbtn" type="button" value="远程图片" onclick="javascript:selectRemotePic();" style="height:22px"/> </td>
+    </tr>
+    <tr height=5></tr>
+    <tr>
+      <td width=60>  标题： </td>
+      <td>  <input id="modifyTitle" type="text" style="width:250px" onchange="javascript:passTitle();">  </td>
+    </tr>
+    <tr height=5></tr>
+    <tr>
+      <td width=60> <input type=button style="width:50px" value="确认" onclick="javascript:saveRecord();">  </td>
+      <td> <input type=button style="width:50px" value="取消" class="a_close">  </td>
+      <td></td><td></td>
+    </tr>
+  </table>
+</div>
+
+
+
+
+<div id="remotepic" style="display:none; align:center">
+    <div id="alldirfile"></div>
+    <input type="button" style="width:50px" value="取消" onclick="javascript:justReturn();">
+</div>
+

@@ -1,0 +1,3 @@
+<!-- databaseName=demo_iss_backup -->
+<!-- st_passports{pass_id}{login_name=':loginName'}{} {} -->   ///:loginName表示变量的值从外部获取；{}表示排序条件为空
+<%=pass_id%>

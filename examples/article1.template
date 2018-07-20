@@ -1,0 +1,19 @@
+<!-- databaseName=demo_iss_backup -->
+<!-- cs_web_info{title,count,publish_date,pic_path,appendix_path}{web_id=:id}{} {} -->   ///:id表示变量的值从外部获取；{}表示排序条件为空
+<!-- cs_web_content{content}{cs_web_content.content_id=cs_web_info.content_id}{} {}-->   ///从第二个表开始，每个表都必须与前面的表关联起来；{}表示不需要排序；后一个{}表示不需要设定返回记录数；实际上这两个表是联立查询的
+<h2 style="font-family:宋体" align="center"><%=title%></h2>
+<div id="data">
+    <table width="680">
+        <tr>
+            <td id="count" align=left>浏览次数：<%=count%></td>
+            <td id="date" align="right"><%=shortDate(publish_date)%></td>///调用特定的函数显示日期
+        </tr>
+    </table>
+</div><br/>
+<div><%=content%></div>
+<div id="appendixPath">
+<%If appendix_path!="" && appendix_path!="__null__"%><a href="<%=appendix_path%>">下载附件 </a> <%EndIf%>  /// 表示当appendix_path为空时，整行不显示
+<p><br/></p></div>
+<%:sqlStr = "update cs_web_info set count=count+1 where web_id=?" %>
+<%:i=execSQL(:sqlStr,:id)%>
+///这个文件演示了在模板文件中怎样联立两个或多个表进行查询

@@ -1,0 +1,4 @@
+<%Provide :x,:operand1,:__targetFlowId__ /%>
+Provide执行成功后，自动继续工作流。。。。。。
+<%=continuewf(:__targetFlowId__)%>
+

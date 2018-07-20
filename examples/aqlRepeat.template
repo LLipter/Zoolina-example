@@ -1,0 +1,12 @@
+<html>
+<%:aqlstr="select nid,title,create_time from demo_iss_backup.cs_ug_notices where info_type='教学通知' order by create_time desc limit 1,5"%>
+<%execAerospike(:aqlstr)%>
+<table>
+<%Repeat%>
+<tr>
+<td><%=nid%></td><td><%=title%></td><td><%=create_time%></td>
+</tr>
+<%EndRepeat%>
+</table>
+</html>
+

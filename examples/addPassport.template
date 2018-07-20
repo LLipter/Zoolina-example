@@ -1,0 +1,3 @@
+<!-- databaseName=demo_iss_backup -->
+<!-- SQL={insert into st_passports(login_name,passwd,classification,create_time) values('<%=:loginName%>',password('<%=:passwd%>'),'<%=:classification%>',now());}-->
+ok

@@ -1,0 +1,5 @@
+<%Function add(:x,:y)%>
+    <%:z=:x+:y%>
+    <%=:z%>
+<%EndFunction%>
+

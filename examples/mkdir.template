@@ -1,0 +1,13 @@
+<!-- databaseName=demo_iss_backup -->
+<%:str="select now()"%>
+<%:dirname=execSQL(:str)%>
+<%:i=indexOf(:dirname,"=")%>
+<%:i=:i+1%>
+<%:dirname=mid(:dirname,:i)%>
+<%:i=indexOf(:dirname,"-")%>
+<%:dirname=mid(:dirname,0,:i) # "." # mid(:dirname,:i+1)%>
+<%:i=indexOf(:dirname,"-")%>
+<%:dirname=mid(:dirname,0,:i)%>
+<%:targetDir="testdir/" # :dirname%><%:x=makeDir(:targetDir)%><%=:x%>
+$_@_$
+<%=:dirname%>

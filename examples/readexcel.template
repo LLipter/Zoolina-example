@@ -1,0 +1,23 @@
+<%:filename = tuid() + :multipart_filename1%>
+<%debugMsg(:filename)%>
+<%writeToFile(:filename,&multipart_filecontent1)%>
+<%xlsContent(:filename,&esheets)%>
+<%:i=0%>
+<%While :i < arrayLength(&esheets)%>
+    <%=:esheets[:i]%><br>
+    <%:i +=1%>
+<%EndWhile%>
+<%deleteFile(:filename)%>
+<br>
+<%:i=0%>
+<%While :i < arrayLength(&esheets)%>
+    <%split(:esheets[:i],"$^@^$",&one_row)%>
+    <%:j=0%>
+    <%While :j < arrayLength(&one_row)%>
+        <%=:one_row[:j]%><br>
+        <%:j +=1%>
+    <%EndWhile%>
+    <%:i +=1%>
+<%EndWhile%>
+
+

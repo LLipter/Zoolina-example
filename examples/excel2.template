@@ -1,0 +1,6 @@
+<%:content= "{0,0,\"name\"},{0,1,\"id\"},{0,2,\"salary\"}"%>
+<%:filename = tuid() + ".xls"%>
+<%generateExcelFile(:filename,:content)%>
+<%:content = readFileContent(:filename)%>
+<%deleteFile(:filename)%>
+<%downloadContentAsFile("application/vnd.ms-excel","attachment",:filename,&content)%>

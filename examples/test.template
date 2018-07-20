@@ -1,0 +1,14 @@
+<!-- databaseName=demo_iss_backup -->
+///<%:key = "马克'思"%>
+///<!--SQL={select title from cs_web_info where title like '%:key%';}-->
+///<%=title%>
+///ok
+
+
+
+<%:var=1%>
+<%If isDefined(&var1)%>
+defined
+<%Else%>
+not defined
+<%EndIf%>

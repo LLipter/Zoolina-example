@@ -1,0 +1,45 @@
+<!-- databaseName=demo_iss_backup -->
+这个模板文件是一个重要的例子，它演示了如下重要功能：<br>
+（1）查询满足条件的所有记录总数的第二种方法，即使用模板函数changeRecordSet()。<br>
+（2）在模板文件中如何使用数组：数组无需定义，直接使用，下标的最大值就是数组的长度。<br>
+（3）模板函数recordCount()的用法，它返回的是当前这次查询（即本页）的记录条数。<br>
+（4）模板内置变量:FOUND_ROWS的用法，它代表了满足条件的所有记录数（即所有页的记录总数）。<br>
+（5）函数eval()的两种典型用法：求值、赋值。<br>
+<%:sqlstr1="select nid,FOUND_ROWS from cs_english_notices limit 3"%>
+<%:x=changeRecordSet(:sqlstr1)%>
+
+<%:i=0%>
+  <%Repeat%>
+	<%:obj[:i]=nid%>
+        <%:i=:i+1%>
+  <%EndRepeat%>
+<%:i=0%>
+输出数组中所有元素的值：
+<%While :i<recordCount()%>
+    <%=:obj[:i]%>,
+    <%:i=:i+1%>
+<%EndWhile%><%Backspace%>
+<br>
+
+退出循环后控制变量的值:i=<%=:i%><br>
+内置变量的值:FOUND_ROWS=<%=:FOUND_ROWS%><br>
+
+changeRecordSet()函数的返回值:x=<%=:x%><br>
+<%:x=":i=5"%>
+<%:x=eval(:x)%>
+执行eval()函数后:x=<%=:x%><br>
+执行eval()函数后:i=<%=:i%><br>
+直接通过eval()求变量:i的值:i=<%=eval(":i")%><br>
+///<%=createSnapshot("/root/temp/1.flv","/root/temp")%><br>
+下面是一个关于循环嵌套的例子<br>
+<%:x=1%>
+<%While :x<4%>
+    <%:y=1%>
+    <%While :y<4%>
+        <%=:x+:y%><br>
+        <%:y=:y+1%>
+    <%EndWhile%>
+    <%:x=:x+1%>
+<%EndWhile%>
+
+

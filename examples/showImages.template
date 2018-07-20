@@ -1,0 +1,18 @@
+<!-- databaseName=demo_iss_backup -->
+<!-- SQL={SELECT pic_path,publish_date FROM cs_web_info WHERE COALESCE(pic_path,'__null__')!='__null__' and pic_path!='' order by publish_date desc limit 5;} -->
+<ul>
+<%Repeat%>
+<li>
+<%:len = strlen(pic_path)%>
+<%:pos1 = indexOf(pic_path,"/")%>
+<%:pos2 = indexOf(pic_path,".")%>
+<%If :len==19 && :pos1==-1 && :pos2==-1%>
+<img src="/one/downloadFile.spe?dtype=PostgresXL&mode=html&fileid=<%=pic_path%>" width="375" height = "244"/>
+<%Else%>
+<img src="<%=pic_path%>" width="375" height="244"/>
+<%EndIf%>
+</li>
+<%EndRepeat%>
+</ul>
+
+

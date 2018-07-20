@@ -1,0 +1,12 @@
+<html>
+<%:aqlstr="select pk_bak,templatePath,passedin_args from demo_iss_backup.workflow_temporaries  where templatePath='examples/workflow.template' order by pk_bak desc"%>
+<%execAerospike(:aqlstr)%>
+<table>
+<%Repeat%>
+<tr>
+<td><%=pk_bak%></td><td><%=templatePath%></td><td><%=passedin_args%></td>
+</tr>
+<%EndRepeat%>
+</table>
+</html>
+

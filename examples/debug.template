@@ -1,0 +1,3 @@
+<%:i=1%>
+<%=:i%><br>
+<%debugMsg("how to debug")%>

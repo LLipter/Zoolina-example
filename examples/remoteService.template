@@ -1,0 +1,5 @@
+<%:A[0]=4%>
+<%:A[1]=5%>
+<%:order=1%>
+<%=:A[:order-1]%>
+<%=executeRemoteService("127.0.0.1","CoreService/calc?a=4&b=7","",10086)%>

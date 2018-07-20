@@ -1,0 +1,13 @@
+<!-- databaseName=demo_iss_backup -->
+<html>
+<%:i[0]=5%>
+<%If :i[0]>5%>
+i is greater than 5
+<%Else%>
+i is not greater than 5
+<%EndIf%>
+<br>
+<%=:i[0]%><br>
+<%:totalPage=ceil(:i[0],10)%>
+<%=:totalPage%>
+</html>
