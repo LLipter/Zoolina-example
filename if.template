@@ -1,0 +1,7 @@
+<% :i=5 %>
+<% If :i>4 %>
+	i is greater than 4
+<% Else %>
+	i is not greater than 4
+<% EndIf %>
+

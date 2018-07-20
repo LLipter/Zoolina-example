@@ -1,0 +1,3 @@
+<%  :str1="be" %>
+<%  :str2="together" %>
+<%= :str1 # " " # :str2 %>

@@ -1,0 +1,9 @@
+<% :i=0 %>
+<% While :i<5 %>
+    <%= :i %><br>
+    <% If :i>1 %>
+        <% Break %>
+    <% EndIf %>
+    <% :i+=1 %>
+<% EndWhile %>
+end of while loop
