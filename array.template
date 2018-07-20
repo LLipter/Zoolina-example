@@ -1,0 +1,14 @@
+<% :i=0 %>
+<% While :i<10 %>
+	<% :array[:i]=:i*2 %>
+	<% :i+=1 %>
+<% EndWhile %>
+
+<% :i=0 %>
+<% While :i<10 %>
+     <%= :array[:i] %> <br>
+     <% :i+=1 %>
+<% EndWhile %>
+
+Array Length : <%= arrayLength(&array) %>
+

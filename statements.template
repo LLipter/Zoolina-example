@@ -1,0 +1,10 @@
+<%
+	:i=0
+	While :i<10
+		=:i # "<br>"
+		:i+=1
+		If :i>5
+			Break
+		EndIf 
+	EndWhile
+%>

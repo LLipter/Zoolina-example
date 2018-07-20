@@ -1,0 +1,15 @@
+<% :var= 1%>
+<% If isDefined(&var) %>
+	var defined
+<% Else %>
+	var not defined
+<% EndIf %>
+
+<br>
+<% If isDefined(&nosuchvar) %>
+       	no such var defined
+<% Else %>
+        no such var not defined
+<% EndIf %>
+
+

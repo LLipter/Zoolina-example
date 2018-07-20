@@ -1,0 +1,7 @@
+<% :number=123.456 %>
+
+<%= ceil(:number) %><br>	/// error
+<%= ceil(:number,10) %><br>	/// 13
+<%= ceil(:number,100) %><br>	/// 2
+<%= ceil(:number,1) %><br>	/// 124
+<%= ceil(:number,3) %><br>	/// 42

@@ -1,0 +1,9 @@
+<% Function add(:x,:y) %>
+    <% :z=:x+:y %>
+    <%= :z %>
+<% EndFunction %>
+
+
+invoke function
+
+<%= add(1,3) %>
